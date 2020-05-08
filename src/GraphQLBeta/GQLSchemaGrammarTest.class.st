@@ -492,12 +492,23 @@ GQLSchemaGrammarTest >> testParameterIncorrect [
 	self fail: 'p1 !' rule: #parameter.
 ]
 
+{ #category : #'test-grammar-parameter' }
+GQLSchemaGrammarTest >> testParameterWithDefaultValue [
+	self parse: 'p : Int=100' rule: #parameter.
+	self parse: 'p : Int =100' rule: #parameter.
+	self parse: 'p : Int= 100' rule: #parameter.
+	self parse: 'p : Int = 100' rule: #parameter.
+
+
+]
+
 { #category : #'test-grammar-parameters' }
 GQLSchemaGrammarTest >> testParameters [
 	self parse: '(p1:[Int], p2:String)' rule: #parameters.
 	self parse: '(p1 : [String ! ])' rule: #parameters.
 	self parse: '( p1 :[Int ! ]!, p2: String!)' rule: #parameters.
 	self parse: '(p1: Int, __p2: String)' rule: #parameters.
+	self parse: '(p1: Int, __p2: String = "abc")' rule: #parameters.
 ]
 
 { #category : #'test-grammar-parameters' }

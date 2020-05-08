@@ -94,7 +94,8 @@ Class {
 		'inputObjectTypeExtension',
 		'objectTypeExtension',
 		'objectTypeExtWithInterface',
-		'scalarIntrospectionType'
+		'scalarIntrospectionType',
+		'parameterDefaultValue'
 	],
 	#category : #'GraphQLBeta-Parser'
 }
@@ -440,8 +441,14 @@ GQLSchemaGrammar >> objectTypeName [
 { #category : #grammar }
 GQLSchemaGrammar >> parameter [
 "Return a parser accepting: 
-description parameterName : inputType, with the comments"
-	^ (description trim: ignored) optional, parameterName , ($: asParser trim: ignored), inputType
+description parameterName : inputType = defaultValue, with the comments"
+	^ (description trim: ignored) optional, parameterName , ($: asParser trim: ignored), inputType, 
+			(($= asParser trim: ignored), parameterDefaultValue trim: ignored) optional
+]
+
+{ #category : #grammar }
+GQLSchemaGrammar >> parameterDefaultValue [
+	^ token
 ]
 
 { #category : #grammar }
