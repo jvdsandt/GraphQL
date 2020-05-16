@@ -4,12 +4,20 @@ I represent a field of a input object type. My type only could be: scalar, enum 
 Class {
 	#name : #GQLSInputObjectFieldNode,
 	#superclass : #GQLSFieldNode,
+	#instVars : [
+		'defaultValue'
+	],
 	#category : #'GraphQLBeta-NodesSchema'
 }
 
 { #category : #defaults }
 GQLSInputObjectFieldNode >> defaultValue [
-	^ nil
+	^ defaultValue
+]
+
+{ #category : #defaults }
+GQLSInputObjectFieldNode >> defaultValue: anObject [
+	defaultValue := anObject
 ]
 
 { #category : #printing }
@@ -18,5 +26,10 @@ GQLSInputObjectFieldNode >> printFullOn: stream [
 		nextPutAll: self name;
 		nextPutAll: ': '.
 		
-	self type printOn: stream
+	self type printOn: stream.
+	self defaultValue notNil
+		ifTrue: [ 
+			stream 
+				nextPutAll: ' = ';
+				print: self defaultValue ]
 ]

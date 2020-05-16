@@ -42,7 +42,7 @@ GQLSchemaGrammarEvaluatorTest >> testDescriptionFieldArguments [
 	node := schema getType: 'Query'.
 	self assert: node class equals: GQLSObjectTypeNode.
 	node := (node getField: 'hello') getArgument: 'to'.
-	self assert: node description value = '"especify the name of argument"'.
+	self assert: node description value equals: '"especify the name of argument"'.
 	
 
 ]
@@ -273,6 +273,24 @@ GQLSchemaGrammarEvaluatorTest >> testIncompleteSchemaUnionType [
 	text := 'union CatOrDog = Cat | |'.
 	schema := GQLSchemaGrammarEvaluator parse: text.
 	self assert: schema class equals: PPFailure
+]
+
+{ #category : #tests }
+GQLSchemaGrammarEvaluatorTest >> testParameterWithDefaultValue [
+	| text  node |
+	text := '
+		type Query { 
+			hello(count: Int = 10): String
+		}
+	'.
+	schema := GQLSchemaGrammarEvaluator parse: text.
+	self assert: schema class equals: GQLSSchemaNode.
+	node := schema getType: 'Query'.
+	self assert: node class equals: GQLSObjectTypeNode.
+	node := (node getField: 'hello') getArgument: 'count'.
+	self assert: node defaultValue equals: '10'.
+	
+
 ]
 
 { #category : #'test-schemaDefinition' }

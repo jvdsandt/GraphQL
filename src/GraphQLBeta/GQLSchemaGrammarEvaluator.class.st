@@ -399,6 +399,8 @@ GQLSchemaGrammarEvaluator >> parameter [
 			node name: (tokens at: 2) inputValue.
 			node type: (tokens at: 4).
 			node position: (tokens at: 2) start.
+			(tokens at: 5) notNil
+				ifTrue: [ node defaultValue: (tokens at: 5) last inputValue ].
 			node ]
 ]
 
